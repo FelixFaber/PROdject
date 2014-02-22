@@ -35,6 +35,14 @@ namespace DynamicClassGeneration
                 return false;
             }
         }
+        public string GetClassContent(ref IClass classToWrite)
+        {
+            PreProcess(ref classToWrite);
+            return GetClassAsString(classToWrite);
+        }
+
+
+
         //TODO: Lazy ref, should make clone
         private void PreProcess(ref IClass classToProcess)
         {
@@ -79,18 +87,11 @@ namespace DynamicClassGeneration
             StringBuilder methodContents = new StringBuilder();
 
             var accessModifier = method.AccessModifier.GetString();
-            
-            methodContents.AppendLine(accessModifier+" "+method.Name);
+
+            methodContents.AppendLine(accessModifier + " " + method.Name);
 
 
             return methodContents.ToString();
-        }
-
-
-        public string GetClassContent(ref IClass classToWrite)
-        {
-            PreProcess(ref classToWrite);
-            return GetClassAsString(classToWrite);
         }
     }
 }
