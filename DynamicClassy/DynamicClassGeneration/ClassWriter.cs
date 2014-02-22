@@ -16,50 +16,81 @@ namespace DynamicClassGeneration
         {
             _outputFolder = outputFolder;
         }
-        public bool WriteClass(IClass classToWrite, out string filePath)
+        public bool WriteClass(ref IClass classToWrite, out string filePath)
         {
+            if (classToWrite == null)
+                throw new ArgumentNullException("classToWrite", "IClass is required");
             try
             {
                 var fileName = classToWrite.Name + ".cs";
-
-                var fileContent = GetClassAsString(classToWrite);
 
 
                 filePath = "C:/" + fileName;
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 filePath = null;
                 return false;
             }
         }
+        //TODO: Lazy ref, should make clone
+        private void PreProcess(ref IClass classToProcess)
+        {
+            if (string.IsNullOrWhiteSpace(classToProcess.Name))
+                throw new NullReferenceException("Missing Class Name");
+            if (string.IsNullOrWhiteSpace(classToProcess.Namespace))
+                throw new NullReferenceException("Missing Class Namespace");
+
+            if (classToProcess.UsingStatements == null) classToProcess.UsingStatements = new List<IUsingStatement>();
+            if (classToProcess.Methods == null) classToProcess.Methods = new List<IMethod>();
+        }
         private string GetClassAsString(IClass classToConvert)
         {
             StringBuilder classContents = new StringBuilder();
 
-            if(classToConvert.Components != null)
+            foreach (var statement in classToConvert.UsingStatements)
             {
-                foreach (var component in classToConvert.Components)
-                {
-                    classContents.AppendLine(GetComponentsAsString(component));
-                    classContents.AppendLine(string.Empty);
-                }
+                classContents.AppendLine("using" + statement.Name + ";");
             }
+            classContents.AppendLine(string.Empty);
+
+            classContents.AppendLine("namespace " + classToConvert.Namespace);
+            classContents.AppendLine("{");
+
+            classContents.AppendLine(string.Format("{0} class {1}", classToConvert.AccessModifier.GetString(), classToConvert.Name));
+            classContents.AppendLine("{");
+            classContents.AppendLine(string.Empty);
+
+            foreach (var method in classToConvert.Methods)
+            {
+                classContents.AppendLine(GetMethodAsString(method));
+                classContents.AppendLine(string.Empty);
+            }
+
+            classContents.AppendLine("}");
+            classContents.AppendLine("}");
 
             return classContents.ToString();
         }
-        private string GetComponentsAsString(IClassComponent component)
+        private string GetMethodAsString(IMethod method)
         {
-            StringBuilder componentContents = new StringBuilder();
+            StringBuilder methodContents = new StringBuilder();
 
-            var accessModifier = component.AccessModifier.GetString();
+            var accessModifier = method.AccessModifier.GetString();
             
-            componentContents.AppendLine(accessModifier+" "+component.Name);
+            methodContents.AppendLine(accessModifier+" "+method.Name);
 
 
-            return componentContents.ToString();
+            return methodContents.ToString();
+        }
+
+
+        public string GetClassContent(ref IClass classToWrite)
+        {
+            PreProcess(ref classToWrite);
+            return GetClassAsString(classToWrite);
         }
     }
 }

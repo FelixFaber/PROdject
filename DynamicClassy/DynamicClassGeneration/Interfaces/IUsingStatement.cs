@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace DynamicClassGeneration.Interfaces
 {
-    public interface IClassComponent
+    public interface IUsingStatement
     {
         string Name { get; set; }
-        string Contents { get; set; }
-        AccessModifierEnum AccessModifier { get; set; }
     }
 }

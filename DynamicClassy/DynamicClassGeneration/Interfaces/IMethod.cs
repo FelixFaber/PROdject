@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace DynamicClassGeneration.Interfaces
 {
-    public interface IClass
+    public interface IMethod
     {
         string Name { get; set; }
-        string Namespace { get; set; }
-        IEnumerable<IUsingStatement> UsingStatements { get; set; }
-        IEnumerable<IMethod> Methods { get; set; }
-        IEnumerable<ICodeStatement> Component { get; set; }
+        Type ReturnType { get; set; }
+        IEnumerable<IMethodParameter> Parameters { get; set; }
+        IEnumerable<ICodeStatement> Statements { get; set; }
         AccessModifierEnum AccessModifier { get; set; }
     }
 }

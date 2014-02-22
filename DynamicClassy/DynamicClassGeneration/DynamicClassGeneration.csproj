@@ -43,7 +43,10 @@
     <Compile Include="ClassWriter.cs" />
     <Compile Include="Interfaces\IClassWriter.cs" />
     <Compile Include="Interfaces\IClass.cs" />
-    <Compile Include="Interfaces\IClassComponent.cs" />
+    <Compile Include="Interfaces\ICodeStatement.cs" />
+    <Compile Include="Interfaces\IMethod.cs" />
+    <Compile Include="Interfaces\IMethodParameter.cs" />
+    <Compile Include="Interfaces\IUsingStatement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

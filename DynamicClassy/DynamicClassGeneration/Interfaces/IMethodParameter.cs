@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DynamicClassGeneration.Interfaces
 {
-    public interface IClassWriter
+    public interface IMethodParameter
     {
-        bool WriteClass(ref IClass classToWrite, out string filePath);
-        string GetClassContent(ref IClass classToWrite);
+        Type ParamType { get; set; }
+        string Name { get; set; }
     }
 }
