@@ -51,16 +51,12 @@
   <ItemGroup>
     <Compile Include="ClassWriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestContent\TestClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DynamicClassGeneration\DynamicClassGeneration.csproj">
       <Project>{00852715-dd3b-40b3-a366-3c55b4caa3d7}</Project>
       <Name>DynamicClassGeneration</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

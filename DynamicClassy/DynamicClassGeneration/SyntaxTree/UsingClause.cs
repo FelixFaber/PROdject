@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamicClassGeneration.Interfaces
+namespace DynamicClassGeneration.SyntaxTree
 {
-    public interface IUsingStatement
+    public class UsingClause
     {
-        string Name { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DynamicClassGeneration.Interfaces;
+﻿using DynamicClassGeneration.SyntaxTree;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DynamicClassGeneration
 {
-    public class ClassWriter : IClassWriter
+    public class ClassWriter
     {
         private DirectoryInfo _outputFolder;
 
@@ -16,7 +16,7 @@ namespace DynamicClassGeneration
         {
             _outputFolder = outputFolder;
         }
-        public bool WriteClass(ref IClass classToWrite, out string filePath)
+        public bool WriteClass(ref RootClass classToWrite, out string filePath)
         {
             if (classToWrite == null)
                 throw new ArgumentNullException("classToWrite", "IClass is required");
@@ -35,7 +35,7 @@ namespace DynamicClassGeneration
                 return false;
             }
         }
-        public string GetClassContent(ref IClass classToWrite)
+        public string GetClassContent(ref RootClass classToWrite)
         {
             PreProcess(ref classToWrite);
             return GetClassAsString(classToWrite);
@@ -44,52 +44,72 @@ namespace DynamicClassGeneration
 
 
         //TODO: Lazy ref, should make clone
-        private void PreProcess(ref IClass classToProcess)
+        private void PreProcess(ref RootClass classToProcess)
         {
             if (string.IsNullOrWhiteSpace(classToProcess.Name))
                 throw new NullReferenceException("Missing Class Name");
             if (string.IsNullOrWhiteSpace(classToProcess.Namespace))
                 throw new NullReferenceException("Missing Class Namespace");
 
-            if (classToProcess.UsingStatements == null) classToProcess.UsingStatements = new List<IUsingStatement>();
-            if (classToProcess.Methods == null) classToProcess.Methods = new List<IMethod>();
+            if (classToProcess.UsingClauses == null) classToProcess.UsingClauses = new List<UsingClause>();
+            if (classToProcess.Methods == null) classToProcess.Methods = new List<Method>();
         }
-        private string GetClassAsString(IClass classToConvert)
+        private string GetClassAsString(RootClass classToConvert)
         {
             StringBuilder classContents = new StringBuilder();
 
-            foreach (var statement in classToConvert.UsingStatements)
+            foreach (var statement in classToConvert.UsingClauses)
             {
-                classContents.AppendLine("using" + statement.Name + ";");
+                classContents.Append("using " + statement.Name + ";");
             }
-            classContents.AppendLine(string.Empty);
 
-            classContents.AppendLine("namespace " + classToConvert.Namespace);
-            classContents.AppendLine("{");
+            classContents.Append("namespace " + classToConvert.Namespace);
+            classContents.Append("{");
 
-            classContents.AppendLine(string.Format("{0} class {1}", classToConvert.AccessModifier.GetString(), classToConvert.Name));
-            classContents.AppendLine("{");
-            classContents.AppendLine(string.Empty);
+            classContents.Append(string.Format("{0} class {1}", classToConvert.AccessModifier.GetString(), classToConvert.Name));
+            classContents.Append("{");
 
             foreach (var method in classToConvert.Methods)
             {
-                classContents.AppendLine(GetMethodAsString(method));
-                classContents.AppendLine(string.Empty);
+                classContents.Append(GetMethodAsString(method));
             }
 
-            classContents.AppendLine("}");
-            classContents.AppendLine("}");
+            classContents.Append("}");
+            classContents.Append("}");
 
             return classContents.ToString();
         }
-        private string GetMethodAsString(IMethod method)
+        private string GetMethodAsString(Method method)
         {
             StringBuilder methodContents = new StringBuilder();
 
             var accessModifier = method.AccessModifier.GetString();
 
-            methodContents.AppendLine(accessModifier + " " + method.Name);
+            var returnType = method.ReturnType.GetOutputString();
+            methodContents.Append(accessModifier + " " + returnType + " " + method.Name);
 
+            methodContents.Append("(");
+            if (method.Parameters != null)
+            {
+                foreach (var param in method.Parameters)
+                {
+                    methodContents.Append(param.ParamType.GetOutputString() + " " + param.Name + ",");
+                }
+            }
+            methodContents.Append(")");
+            methodContents = methodContents.Remove(methodContents.ToString().LastIndexOf(','), 1);
+
+            methodContents.Append("{");
+
+            if (method.Statements != null)
+            {
+                foreach (var statement in method.Statements)
+                {
+                    methodContents.Append(statement.Content);
+                }
+            }
+
+            methodContents.Append("}");
 
             return methodContents.ToString();
         }

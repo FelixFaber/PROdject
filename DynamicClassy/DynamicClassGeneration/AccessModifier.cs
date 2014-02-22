@@ -23,7 +23,6 @@ namespace DynamicClassGeneration
                 default:
                     return string.Empty;
             }
-
         }
     }
 
