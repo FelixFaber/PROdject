@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassGenerator", "ClassGenerator\ClassGenerator.csproj", "{BC4F97B7-5124-4F73-9EF9-30D413CE2DAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassGenerator.Interfaces", "ClassGenerator.Interfaces\ClassGenerator.Interfaces.csproj", "{F9CC3D48-7D4A-4EBA-8517-6D0C07B3FF45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BC4F97B7-5124-4F73-9EF9-30D413CE2DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC4F97B7-5124-4F73-9EF9-30D413CE2DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC4F97B7-5124-4F73-9EF9-30D413CE2DAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9CC3D48-7D4A-4EBA-8517-6D0C07B3FF45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9CC3D48-7D4A-4EBA-8517-6D0C07B3FF45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9CC3D48-7D4A-4EBA-8517-6D0C07B3FF45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9CC3D48-7D4A-4EBA-8517-6D0C07B3FF45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
