@@ -99,6 +99,11 @@ namespace DynamicClassGeneration.Tests
 
             Assert.IsTrue(writeSuccess);
             Assert.AreEqual(expectedFilePath, actualFilePath);
+
+            string expectedFileContent = ClassGenerator.GetClassAsString(ref testClass);
+            string actualfileContent = File.ReadAllText(actualFilePath, Encoding.UTF8);
+
+            Assert.AreEqual(expectedFileContent, actualfileContent);
         }
     }
 }
