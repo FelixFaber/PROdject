@@ -10,30 +10,33 @@ namespace DynamicClassGeneration
 {
     public static class ClassGenerator
     {    
-        public static string GetClassAsString(ref RootClass classToWrite)
+        public static string GetClassAsString(RootClass classToWrite)
         {
             if (classToWrite == null)
                 throw new ArgumentNullException("classToWrite", "IClass is required");
 
-            PreProcess(ref classToWrite);
-            return GetClassAsString(classToWrite);
+            var preProcessedClass = PreProcess(classToWrite);
+            return MakeClassString(preProcessedClass);
         }
 
-        //TODO: Lazy ref, should make clone
-        private static void PreProcess(ref RootClass classToProcess)
+        private static RootClass PreProcess(RootClass classToProcess)
         {
             if (string.IsNullOrWhiteSpace(classToProcess.Name))
                 throw new NullReferenceException("Missing Class Name");
             if (string.IsNullOrWhiteSpace(classToProcess.Namespace))
                 throw new NullReferenceException("Missing Class Namespace");
 
-            if (classToProcess.UsingClauses == null) classToProcess.UsingClauses = new List<UsingClause>();
-            if (classToProcess.Methods == null) classToProcess.Methods = new List<Method>();
-            if (classToProcess.Interfaces == null) classToProcess.Interfaces = new List<Interface>();
+            var preProcessedClass = classToProcess.Clone();
+
+            if (preProcessedClass.UsingClauses == null) preProcessedClass.UsingClauses = new List<UsingClause>();
+            if (preProcessedClass.Methods == null) preProcessedClass.Methods = new List<Method>();
+            if (preProcessedClass.Interfaces == null) preProcessedClass.Interfaces = new List<Interface>();
+
+            return preProcessedClass;
         }
-        private static string GetClassAsString(RootClass classToConvert)
+        private static string MakeClassString(RootClass classToConvert)
         {
-            StringBuilder classContents = new StringBuilder();
+            var classContents = new StringBuilder();
 
             foreach (var statement in classToConvert.UsingClauses)
             {
@@ -44,12 +47,12 @@ namespace DynamicClassGeneration
             classContents.Append("{");
 
             classContents.Append(string.Format("{0} class {1}", classToConvert.AccessModifier.GetString(), classToConvert.Name));
-            classContents.Append(GetClassInheritence(classToConvert));
+            classContents.Append(MakeClassInheritenceString(classToConvert));
             classContents.Append("{");
 
             foreach (var method in classToConvert.Methods)
             {
-                classContents.Append(GetMethodAsString(method));
+                classContents.Append(MakeMethodString(method));
             }
 
             classContents.Append("}");
@@ -57,13 +60,11 @@ namespace DynamicClassGeneration
 
             return classContents.ToString();
         }
-        private static string GetClassInheritence(RootClass classToConvert)
+        private static string MakeClassInheritenceString(RootClass classToConvert)
         {
-            StringBuilder inheritence = new StringBuilder();
-
-            
-            bool hasBaseClass = !string.IsNullOrWhiteSpace(classToConvert.BaseClassName);
-            bool hasInterfaces = classToConvert.Interfaces.Count() > 0;
+            var inheritence = new StringBuilder();
+            var hasBaseClass = !string.IsNullOrWhiteSpace(classToConvert.BaseClassName);
+            var hasInterfaces = classToConvert.Interfaces.Count() > 0;
 
             if (hasBaseClass || hasInterfaces)
             {
@@ -81,18 +82,17 @@ namespace DynamicClassGeneration
                 }
             }
 
-            string inheritenceString = inheritence.ToString();
+            var inheritenceString = inheritence.ToString();
             if(inheritenceString.Contains(','))
                 inheritenceString = inheritenceString.Remove(inheritenceString.LastIndexOf(','));
             return inheritenceString;
         }
-        private static string GetMethodAsString(Method method)
+        private static string MakeMethodString(Method method)
         {
-            StringBuilder methodContents = new StringBuilder();
-
+            var methodContents = new StringBuilder();
             var accessModifier = method.AccessModifier.GetString();
-
             var returnType = method.ReturnType.GetOutputString();
+
             methodContents.Append(accessModifier + " " + returnType + " " + method.Name);
 
             methodContents.Append("(");

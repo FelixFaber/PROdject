@@ -21,7 +21,7 @@ namespace DynamicClassGeneration.Tests
 
             var expected = "namespace Joel.Testar{public class Heippa{}}";
 
-            var actual = ClassGenerator.GetClassAsString(ref testClass);
+            var actual = ClassGenerator.GetClassAsString(testClass);
 
             Assert.AreEqual(expected, actual);
         }
@@ -37,7 +37,7 @@ namespace DynamicClassGeneration.Tests
 
             var expected = "namespace Joel.Testar{public class Heippa:TestClassBase{}}";
 
-            var actual = ClassGenerator.GetClassAsString(ref testClass);
+            var actual = ClassGenerator.GetClassAsString(testClass);
 
             Assert.AreEqual(expected, actual);
         }
@@ -57,7 +57,7 @@ namespace DynamicClassGeneration.Tests
 
             var expected = "namespace Joel.Testar{public class Heippa:FirstInterface,SecondInterface{}}";
 
-            var actual = ClassGenerator.GetClassAsString(ref testClass);
+            var actual = ClassGenerator.GetClassAsString(testClass);
 
             Assert.AreEqual(expected, actual);
         }
@@ -78,7 +78,7 @@ namespace DynamicClassGeneration.Tests
 
             var expected = "namespace Joel.Testar{public class Heippa:TestClassBase,FirstInterface,SecondInterface{}}";
 
-            var actual = ClassGenerator.GetClassAsString(ref testClass);
+            var actual = ClassGenerator.GetClassAsString(testClass);
 
             Assert.AreEqual(expected, actual);
         }
@@ -98,7 +98,7 @@ namespace DynamicClassGeneration.Tests
 
             var expected = "using System;using System.Collections.Generic;namespace Joel.Testar{public class Heippa{}}";
 
-            var actual = ClassGenerator.GetClassAsString(ref testClass);
+            var actual = ClassGenerator.GetClassAsString(testClass);
 
             Assert.AreEqual(expected, actual);
         }
@@ -129,7 +129,7 @@ namespace DynamicClassGeneration.Tests
 
             var expected = "namespace Joel.Testar{public class Heippa{internal void DoMoveMouse(int xPos,int yPos){}}}";
 
-            var actual = ClassGenerator.GetClassAsString(ref testClass);
+            var actual = ClassGenerator.GetClassAsString(testClass);
 
             Assert.AreEqual(expected, actual);
         }
@@ -164,7 +164,7 @@ namespace DynamicClassGeneration.Tests
 
             var expected = "namespace Joel.Testar{public class Heippa{internal void DoMoveMouse(int xPos,int yPos){if(xPos == 1){/*move mouse*/}}}}";
 
-            var actual = ClassGenerator.GetClassAsString(ref testClass);
+            var actual = ClassGenerator.GetClassAsString(testClass);
 
             Assert.AreEqual(expected, actual);
         }
@@ -173,7 +173,7 @@ namespace DynamicClassGeneration.Tests
         public void GetClassContent_Null_Class()
         {
             RootClass testClass = null;
-            var actual = ClassGenerator.GetClassAsString(ref testClass);
+            var actual = ClassGenerator.GetClassAsString(testClass);
         }
     }
 }

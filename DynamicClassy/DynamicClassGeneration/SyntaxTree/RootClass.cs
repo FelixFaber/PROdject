@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DynamicClassGeneration.SyntaxTree
 {
-    public class RootClass
+    public class RootClass : ICloneable
     {
         public string Name { get; set; }
         public string Namespace { get; set; }
@@ -15,5 +15,8 @@ namespace DynamicClassGeneration.SyntaxTree
         public IEnumerable<Method> Methods { get; set; }
         public IEnumerable<Interface> Interfaces { get; set; }
         public AccessModifierEnum AccessModifier { get; set; }
+
+        public RootClass Clone() { return (RootClass)this.MemberwiseClone(); }
+        object ICloneable.Clone() { return Clone(); }
     }
 }

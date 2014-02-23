@@ -17,7 +17,7 @@ namespace DynamicClassGeneration
             _outputFolder = outputFolder;
         }
 
-        public bool WriteClassToFile(ref RootClass classToWrite, out string filePath, Encoding encoding)
+        public bool WriteClassToFile(RootClass classToWrite, out string filePath, Encoding encoding)
         {
             if (classToWrite == null)
                 throw new ArgumentNullException("classToWrite", "RootClass is required");
@@ -26,7 +26,7 @@ namespace DynamicClassGeneration
             try
             {
                 var fileName = classToWrite.Name + ".cs";
-                var fileContents = ClassGenerator.GetClassAsString(ref classToWrite);
+                var fileContents = ClassGenerator.GetClassAsString(classToWrite);
                 var writePath = Path.Combine(_outputFolder.FullName, fileName);
 
                 File.WriteAllText(writePath, fileContents, encoding);

@@ -50,7 +50,7 @@ namespace DynamicClassGeneration.Tests
 
             var filePath = string.Empty;
 
-            var actual = _writer.WriteClassToFile(ref testClass, out filePath, Encoding.UTF8);
+            var actual = _writer.WriteClassToFile(testClass, out filePath, Encoding.UTF8);
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -58,7 +58,7 @@ namespace DynamicClassGeneration.Tests
         {
             RootClass testClass = null;
             var filePath = string.Empty;
-            var actual = _writer.WriteClassToFile(ref testClass, out filePath, Encoding.UTF8);
+            var actual = _writer.WriteClassToFile(testClass, out filePath, Encoding.UTF8);
         }
 
         [Test]
@@ -95,12 +95,12 @@ namespace DynamicClassGeneration.Tests
             var expectedFilePath = Path.GetFullPath(Path.Combine(targetFolder, testClass.Name + ".cs"));
             var actualFilePath = string.Empty;
 
-            var writeSuccess = writer.WriteClassToFile(ref testClass, out actualFilePath, Encoding.UTF8);
+            var writeSuccess = writer.WriteClassToFile(testClass, out actualFilePath, Encoding.UTF8);
 
             Assert.IsTrue(writeSuccess);
             Assert.AreEqual(expectedFilePath, actualFilePath);
 
-            string expectedFileContent = ClassGenerator.GetClassAsString(ref testClass);
+            string expectedFileContent = ClassGenerator.GetClassAsString(testClass);
             string actualfileContent = File.ReadAllText(actualFilePath, Encoding.UTF8);
 
             Assert.AreEqual(expectedFileContent, actualfileContent);
