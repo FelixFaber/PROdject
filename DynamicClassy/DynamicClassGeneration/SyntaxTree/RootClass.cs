@@ -10,8 +10,10 @@ namespace DynamicClassGeneration.SyntaxTree
     {
         public string Name { get; set; }
         public string Namespace { get; set; }
+        public string BaseClassName { get; set; }
         public IEnumerable<UsingClause> UsingClauses { get; set; }
         public IEnumerable<Method> Methods { get; set; }
+        public IEnumerable<Interface> Interfaces { get; set; }
         public IEnumerable<Statement> Statements { get; set; }
         public AccessModifierEnum AccessModifier { get; set; }
     }

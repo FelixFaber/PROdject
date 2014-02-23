@@ -43,6 +43,7 @@
     <Compile Include="SyntaxTree\MethodParameter.cs" />
     <Compile Include="SyntaxTree\RootClass.cs" />
     <Compile Include="SyntaxTree\Statement.cs" />
+    <Compile Include="SyntaxTree\Interface.cs" />
     <Compile Include="SyntaxTree\UsingClause.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="AccessModifier.cs" />

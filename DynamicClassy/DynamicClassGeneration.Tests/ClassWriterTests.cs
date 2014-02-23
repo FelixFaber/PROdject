@@ -32,6 +32,63 @@ namespace DynamicClassGeneration.Tests
             Assert.AreEqual(expected, actual);
         }
         [Test]
+        public void GetClassContent_Name_Namespace_BaseClass()
+        {
+            RootClass testClass = new RootClass()
+            {
+                Name = "Heippa",
+                Namespace = "Joel.Testar",
+                BaseClassName = "TestClassBase"
+            };
+
+            var expected = "namespace Joel.Testar{public class Heippa:TestClassBase{}}";
+
+            var actual = _writer.GetClassContent(ref testClass);
+
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void GetClassContent_Name_Namespace_TwoInterfaces()
+        {
+            RootClass testClass = new RootClass()
+            {
+                Name = "Heippa",
+                Namespace = "Joel.Testar",
+                Interfaces = new List<Interface>()
+                    {
+                        new Interface(){Name = "FirstInterface"},
+                        new Interface(){Name = "SecondInterface"}
+                    }
+            };
+
+            var expected = "namespace Joel.Testar{public class Heippa:FirstInterface,SecondInterface{}}";
+
+            var actual = _writer.GetClassContent(ref testClass);
+
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void GetClassContent_Name_Namespace_BaseClass_TwoInterfaces()
+        {
+            RootClass testClass = new RootClass()
+            {
+                Name = "Heippa",
+                Namespace = "Joel.Testar",
+                BaseClassName = "TestClassBase",
+                Interfaces = new List<Interface>()
+                    {
+                        new Interface(){Name = "FirstInterface"},
+                        new Interface(){Name = "SecondInterface"}
+                    }
+            };
+
+            var expected = "namespace Joel.Testar{public class Heippa:TestClassBase,FirstInterface,SecondInterface{}}";
+
+            var actual = _writer.GetClassContent(ref testClass);
+
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
         public void GetClassContent_Name_Namespace_TwoUsingClauses()
         {
             RootClass testClass = new RootClass()
