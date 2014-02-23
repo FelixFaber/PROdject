@@ -14,7 +14,6 @@ namespace DynamicClassGeneration.SyntaxTree
         public IEnumerable<UsingClause> UsingClauses { get; set; }
         public IEnumerable<Method> Methods { get; set; }
         public IEnumerable<Interface> Interfaces { get; set; }
-        public IEnumerable<Statement> Statements { get; set; }
         public AccessModifierEnum AccessModifier { get; set; }
     }
 }

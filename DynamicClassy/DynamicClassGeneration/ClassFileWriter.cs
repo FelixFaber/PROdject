@@ -20,7 +20,7 @@ namespace DynamicClassGeneration
         public bool WriteClassToFile(ref RootClass classToWrite, out string filePath, Encoding encoding)
         {
             if (classToWrite == null)
-                throw new ArgumentNullException("classToWrite", "IClass is required");
+                throw new ArgumentNullException("classToWrite", "RootClass is required");
             if (_outputFolder == null)
                 throw new NullReferenceException("Target Directory is required");
             try
