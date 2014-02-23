@@ -13,7 +13,7 @@ namespace DynamicClassGeneration
         public static string GetClassAsString(RootClass classToWrite)
         {
             if (classToWrite == null)
-                throw new ArgumentNullException("classToWrite", "IClass is required");
+                throw new ArgumentNullException("classToWrite", "SUG MIN KUK is required");
 
             var preProcessedClass = PreProcess(classToWrite);
             return MakeClassString(preProcessedClass);
