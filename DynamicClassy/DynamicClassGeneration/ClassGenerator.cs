@@ -8,38 +8,9 @@ using System.Threading.Tasks;
 
 namespace DynamicClassGeneration
 {
-    public class ClassWriter
-    {
-        private DirectoryInfo _outputFolder;
-
-        public ClassWriter(DirectoryInfo outputFolder)
-        {
-            _outputFolder = outputFolder;
-        }
-        public bool WriteClassToFile(ref RootClass classToWrite, out string filePath)
-        {
-            if (classToWrite == null)
-                throw new ArgumentNullException("classToWrite", "IClass is required");
-            if (_outputFolder == null)
-                throw new NullReferenceException("Target Directory is required");
-            try
-            {
-                var fileName = classToWrite.Name + ".cs";
-                var fileContents = GetClassContent(ref classToWrite);
-                var writePath = Path.Combine(_outputFolder.FullName, fileName);
-
-                File.WriteAllText(writePath, fileContents, Encoding.UTF8);
-                
-                filePath = writePath;
-                return true;
-            }
-            catch (Exception)
-            {
-                filePath = null;
-                return false;
-            }
-        }
-        public string GetClassContent(ref RootClass classToWrite)
+    public static class ClassGenerator
+    {    
+        public static string GetClassAsString(ref RootClass classToWrite)
         {
             if (classToWrite == null)
                 throw new ArgumentNullException("classToWrite", "IClass is required");
@@ -48,10 +19,8 @@ namespace DynamicClassGeneration
             return GetClassAsString(classToWrite);
         }
 
-
-
         //TODO: Lazy ref, should make clone
-        private void PreProcess(ref RootClass classToProcess)
+        private static void PreProcess(ref RootClass classToProcess)
         {
             if (string.IsNullOrWhiteSpace(classToProcess.Name))
                 throw new NullReferenceException("Missing Class Name");
@@ -62,7 +31,7 @@ namespace DynamicClassGeneration
             if (classToProcess.Methods == null) classToProcess.Methods = new List<Method>();
             if (classToProcess.Interfaces == null) classToProcess.Interfaces = new List<Interface>();
         }
-        private string GetClassAsString(RootClass classToConvert)
+        private static string GetClassAsString(RootClass classToConvert)
         {
             StringBuilder classContents = new StringBuilder();
 
@@ -88,7 +57,7 @@ namespace DynamicClassGeneration
 
             return classContents.ToString();
         }
-        private string GetClassInheritence(RootClass classToConvert)
+        private static string GetClassInheritence(RootClass classToConvert)
         {
             StringBuilder inheritence = new StringBuilder();
 
@@ -117,7 +86,7 @@ namespace DynamicClassGeneration
                 inheritenceString = inheritenceString.Remove(inheritenceString.LastIndexOf(','));
             return inheritenceString;
         }
-        private string GetMethodAsString(Method method)
+        private static string GetMethodAsString(Method method)
         {
             StringBuilder methodContents = new StringBuilder();
 

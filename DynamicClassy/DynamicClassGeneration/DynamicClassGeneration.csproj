@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassFileWriter.cs" />
     <Compile Include="SyntaxTree\Method.cs" />
     <Compile Include="SyntaxTree\MethodParameter.cs" />
     <Compile Include="SyntaxTree\RootClass.cs" />
@@ -47,7 +48,7 @@
     <Compile Include="SyntaxTree\UsingClause.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="AccessModifier.cs" />
-    <Compile Include="ClassWriter.cs" />
+    <Compile Include="ClassGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

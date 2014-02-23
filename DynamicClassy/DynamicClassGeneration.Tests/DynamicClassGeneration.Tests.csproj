@@ -49,6 +49,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ClassGeneratorTests.cs" />
     <Compile Include="ClassWriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestUtil.cs" />
