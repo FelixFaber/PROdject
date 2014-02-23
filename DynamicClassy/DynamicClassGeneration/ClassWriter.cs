@@ -16,17 +16,21 @@ namespace DynamicClassGeneration
         {
             _outputFolder = outputFolder;
         }
-        public bool WriteClass(ref RootClass classToWrite, out string filePath)
+        public bool WriteClassToFile(ref RootClass classToWrite, out string filePath)
         {
             if (classToWrite == null)
                 throw new ArgumentNullException("classToWrite", "IClass is required");
+            if (_outputFolder == null)
+                throw new NullReferenceException("Target Directory is required");
             try
             {
                 var fileName = classToWrite.Name + ".cs";
+                var fileContents = GetClassContent(ref classToWrite);
+                var writePath = Path.Combine(_outputFolder.FullName, fileName);
 
-
-                filePath = "C:/" + fileName;
-
+                File.WriteAllText(writePath, fileContents, Encoding.UTF8);
+                
+                filePath = writePath;
                 return true;
             }
             catch (Exception)
@@ -37,6 +41,9 @@ namespace DynamicClassGeneration
         }
         public string GetClassContent(ref RootClass classToWrite)
         {
+            if (classToWrite == null)
+                throw new ArgumentNullException("classToWrite", "IClass is required");
+
             PreProcess(ref classToWrite);
             return GetClassAsString(classToWrite);
         }
