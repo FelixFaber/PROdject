@@ -1,5 +1,6 @@
 ﻿using DynamicClassGeneration.SyntaxTree;
 using NUnit.Framework;
+using Plugin.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,7 +39,7 @@ namespace DynamicClassGeneration.Tests
                         new Statement(){Content = "if(xPos == 1){/*move mouse*/}"}
                     }
             };
-            RootClass testClass = new RootClass()
+            PluginClass testClass = new PluginClass()
             {
                 Name = "Heippa",
                 Namespace = "Joel.Testar",
@@ -56,7 +57,7 @@ namespace DynamicClassGeneration.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void WriteFileToDisk_Null_Class()
         {
-            RootClass testClass = null;
+            PluginClass testClass = null;
             var filePath = string.Empty;
             var actual = _writer.WriteClassToFile(testClass, out filePath, Encoding.UTF8);
         }
@@ -66,6 +67,8 @@ namespace DynamicClassGeneration.Tests
         {
             string targetFolder = TestUtil.AssemblyDirectory;
             ClassFileWriter writer = new ClassFileWriter(new DirectoryInfo(targetFolder));
+
+            string pluginName = "TestPlugin";
 
             Method MoveMouse = new Method()
             {
@@ -82,25 +85,46 @@ namespace DynamicClassGeneration.Tests
                         new Statement(){Content = "if(xPos == 1){/*move mouse*/}"}
                     }
             };
-            RootClass testClass = new RootClass()
+
+            PluginClass plugin = new PluginClass()
             {
-                Name = "Heippa",
+                Name = pluginName,
                 Namespace = "Joel.Testar",
+                Interfaces = new List<Interface>()
+                    {
+                        new Interface(){ Name = "IPlugin" }
+                    },
+                UsingClauses = new List<UsingClause>()
+                    {
+                        new UsingClause(){Name = "Plugin.Interfaces"}
+                    },
                 Methods = new List<Method>()
                     {
-                        MoveMouse
+                        MoveMouse,
+                        new Method(){Name = "Configure"},
+                        new Method(){Name = "PreProcess"},
+                        new Method(){Name = "Process"},
+                        new Method()
+                        {
+                            Name = "GetResult",
+                            ReturnType = typeof(IPluginResult),
+                            Statements = new List<Statement>()
+                            {
+                                new Statement(){Content = "return null;"} 
+                            }
+                        }
                     }
             };
 
-            var expectedFilePath = Path.GetFullPath(Path.Combine(targetFolder, testClass.Name + ".cs"));
+            var expectedFilePath = Path.GetFullPath(Path.Combine(targetFolder, plugin.Name + ".cs"));
             var actualFilePath = string.Empty;
 
-            var writeSuccess = writer.WriteClassToFile(testClass, out actualFilePath, Encoding.UTF8);
+            var writeSuccess = writer.WriteClassToFile(plugin, out actualFilePath, Encoding.UTF8);
 
             Assert.IsTrue(writeSuccess);
             Assert.AreEqual(expectedFilePath, actualFilePath);
 
-            string expectedFileContent = ClassGenerator.GetClassAsString(testClass);
+            string expectedFileContent = ClassGenerator.GetClassAsString(plugin);
             string actualfileContent = File.ReadAllText(actualFilePath, Encoding.UTF8);
 
             Assert.AreEqual(expectedFileContent, actualfileContent);

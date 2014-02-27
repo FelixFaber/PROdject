@@ -10,7 +10,7 @@ namespace DynamicClassGeneration
 {
     public static class ClassGenerator
     {    
-        public static string GetClassAsString(RootClass classToWrite)
+        public static string GetClassAsString(PluginClass classToWrite)
         {
             if (classToWrite == null)
                 throw new ArgumentNullException("classToWrite", "SUG MIN KUK is required");
@@ -19,7 +19,7 @@ namespace DynamicClassGeneration
             return MakeClassString(preProcessedClass);
         }
 
-        private static RootClass PreProcess(RootClass classToProcess)
+        private static PluginClass PreProcess(PluginClass classToProcess)
         {
             if (string.IsNullOrWhiteSpace(classToProcess.Name))
                 throw new NullReferenceException("Missing Class Name");
@@ -34,33 +34,33 @@ namespace DynamicClassGeneration
 
             return preProcessedClass;
         }
-        private static string MakeClassString(RootClass classToConvert)
+        private static string MakeClassString(PluginClass classToConvert)
         {
             var classContents = new StringBuilder();
 
             foreach (var statement in classToConvert.UsingClauses)
             {
-                classContents.Append("using " + statement.Name + ";");
+                classContents.Append("using " + statement.Name + ";\n");
             }
 
-            classContents.Append("namespace " + classToConvert.Namespace);
-            classContents.Append("{");
+            classContents.Append("namespace " + classToConvert.Namespace + "\n");
+            classContents.Append("{\n");
 
-            classContents.Append(string.Format("{0} class {1}", classToConvert.AccessModifier.GetString(), classToConvert.Name));
+            classContents.Append(string.Format("\t{0} class {1}", classToConvert.AccessModifier.GetString(), classToConvert.Name));
             classContents.Append(MakeClassInheritenceString(classToConvert));
-            classContents.Append("{");
+            classContents.Append("\n\t{\n");
 
             foreach (var method in classToConvert.Methods)
             {
                 classContents.Append(MakeMethodString(method));
             }
 
-            classContents.Append("}");
-            classContents.Append("}");
+            classContents.Append("\t}\n");
+            classContents.Append("}\n");
 
             return classContents.ToString();
         }
-        private static string MakeClassInheritenceString(RootClass classToConvert)
+        private static string MakeClassInheritenceString(PluginClass classToConvert)
         {
             var inheritence = new StringBuilder();
             var hasBaseClass = !string.IsNullOrWhiteSpace(classToConvert.BaseClassName);
@@ -93,30 +93,33 @@ namespace DynamicClassGeneration
             var accessModifier = method.AccessModifier.GetString();
             var returnType = method.ReturnType.GetOutputString();
 
-            methodContents.Append(accessModifier + " " + returnType + " " + method.Name);
+            methodContents.Append("\t\t"+accessModifier + " " + returnType + " " + method.Name);
 
-            methodContents.Append("(");
+            string methodParams = "(";
             if (method.Parameters != null)
             {
+                
                 foreach (var param in method.Parameters)
                 {
-                    methodContents.Append(param.ParamType.GetOutputString() + " " + param.Name + ",");
+                    methodParams += param.ParamType.GetOutputString() + " " + param.Name + ",";
                 }
             }
-            methodContents.Append(")");
-            methodContents = methodContents.Remove(methodContents.ToString().LastIndexOf(','), 1);
+            methodParams += ")";
+            if(methodParams.Contains(','))
+                methodParams = methodParams.Remove(methodParams.LastIndexOf(','), 1);
+            methodContents.Append(methodParams);
 
-            methodContents.Append("{");
+            methodContents.Append("\n\t\t{");
 
             if (method.Statements != null)
             {
                 foreach (var statement in method.Statements)
                 {
-                    methodContents.Append(statement.Content);
+                    methodContents.Append("\n\t\t\t"+statement.Content);
                 }
             }
 
-            methodContents.Append("}");
+            methodContents.Append("\n\t\t}\n");
 
             return methodContents.ToString();
         }

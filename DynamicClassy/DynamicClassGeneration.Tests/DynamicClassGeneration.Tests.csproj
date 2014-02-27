@@ -59,6 +59,10 @@
       <Project>{00852715-dd3b-40b3-a366-3c55b4caa3d7}</Project>
       <Name>DynamicClassGeneration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Plugin.Interface\Plugin.Interfaces.csproj">
+      <Project>{583338ea-91da-4606-8959-ad5cccf862a2}</Project>
+      <Name>Plugin.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

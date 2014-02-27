@@ -17,7 +17,7 @@ namespace DynamicClassGeneration
             _outputFolder = outputFolder;
         }
 
-        public bool WriteClassToFile(RootClass classToWrite, out string filePath, Encoding encoding)
+        public bool WriteClassToFile(PluginClass classToWrite, out string filePath, Encoding encoding)
         {
             if (classToWrite == null)
                 throw new ArgumentNullException("classToWrite", "RootClass is required");

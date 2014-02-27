@@ -29,7 +29,7 @@ namespace DynamicClassGeneration
             else if (self == typeof(char))
                 return "char";
             else
-                throw new NotSupportedException("Type " + self.FullName + " is not yet supported! Add it!");
+                return self.Name;
         }
     }
 }

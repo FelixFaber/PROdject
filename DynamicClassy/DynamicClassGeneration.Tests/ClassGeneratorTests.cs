@@ -13,13 +13,13 @@ namespace DynamicClassGeneration.Tests
         [Test]
         public void GetClassContent_Name_Namespace()
         {
-            RootClass testClass = new RootClass()
+            PluginClass testClass = new PluginClass()
             {
                 Name = "Heippa",
                 Namespace = "Joel.Testar"
             };
 
-            var expected = "namespace Joel.Testar{public class Heippa{}}";
+            var expected = "namespace Joel.Testar\n{\n\tpublic class Heippa\n\t{\n\t}\n}\n";
 
             var actual = ClassGenerator.GetClassAsString(testClass);
 
@@ -28,14 +28,14 @@ namespace DynamicClassGeneration.Tests
         [Test]
         public void GetClassContent_Name_Namespace_BaseClass()
         {
-            RootClass testClass = new RootClass()
+            PluginClass testClass = new PluginClass()
             {
                 Name = "Heippa",
                 Namespace = "Joel.Testar",
                 BaseClassName = "TestClassBase"
             };
 
-            var expected = "namespace Joel.Testar{public class Heippa:TestClassBase{}}";
+            var expected = "namespace Joel.Testar\n{\n\tpublic class Heippa:TestClassBase\n\t{\n\t}\n}\n";
 
             var actual = ClassGenerator.GetClassAsString(testClass);
 
@@ -44,7 +44,7 @@ namespace DynamicClassGeneration.Tests
         [Test]
         public void GetClassContent_Name_Namespace_TwoInterfaces()
         {
-            RootClass testClass = new RootClass()
+            PluginClass testClass = new PluginClass()
             {
                 Name = "Heippa",
                 Namespace = "Joel.Testar",
@@ -55,7 +55,7 @@ namespace DynamicClassGeneration.Tests
                     }
             };
 
-            var expected = "namespace Joel.Testar{public class Heippa:FirstInterface,SecondInterface{}}";
+            var expected = "namespace Joel.Testar\n{\n\tpublic class Heippa:FirstInterface,SecondInterface\n\t{\n\t}\n}\n";
 
             var actual = ClassGenerator.GetClassAsString(testClass);
 
@@ -64,7 +64,7 @@ namespace DynamicClassGeneration.Tests
         [Test]
         public void GetClassContent_Name_Namespace_BaseClass_TwoInterfaces()
         {
-            RootClass testClass = new RootClass()
+            PluginClass testClass = new PluginClass()
             {
                 Name = "Heippa",
                 Namespace = "Joel.Testar",
@@ -76,7 +76,7 @@ namespace DynamicClassGeneration.Tests
                     }
             };
 
-            var expected = "namespace Joel.Testar{public class Heippa:TestClassBase,FirstInterface,SecondInterface{}}";
+            var expected = "namespace Joel.Testar\n{\n\tpublic class Heippa:TestClassBase,FirstInterface,SecondInterface\n\t{\n\t}\n}\n";
 
             var actual = ClassGenerator.GetClassAsString(testClass);
 
@@ -85,7 +85,7 @@ namespace DynamicClassGeneration.Tests
         [Test]
         public void GetClassContent_Name_Namespace_TwoUsingClauses()
         {
-            RootClass testClass = new RootClass()
+            PluginClass testClass = new PluginClass()
             {
                 Name = "Heippa",
                 Namespace = "Joel.Testar",
@@ -96,7 +96,7 @@ namespace DynamicClassGeneration.Tests
                     }
             };
 
-            var expected = "using System;using System.Collections.Generic;namespace Joel.Testar{public class Heippa{}}";
+            var expected = "using System;\nusing System.Collections.Generic;\nnamespace Joel.Testar\n{\n\tpublic class Heippa\n\t{\n\t}\n}\n";
 
             var actual = ClassGenerator.GetClassAsString(testClass);
 
@@ -117,7 +117,7 @@ namespace DynamicClassGeneration.Tests
                         new MethodParameter(){Name = "yPos", ParamType = typeof(int)}
                     }
             };
-            RootClass testClass = new RootClass()
+            PluginClass testClass = new PluginClass()
             {
                 Name = "Heippa",
                 Namespace = "Joel.Testar",
@@ -127,7 +127,7 @@ namespace DynamicClassGeneration.Tests
                     }
             };
 
-            var expected = "namespace Joel.Testar{public class Heippa{internal void DoMoveMouse(int xPos,int yPos){}}}";
+            var expected = "namespace Joel.Testar\n{\n\tpublic class Heippa\n\t{\n\t\tinternal void DoMoveMouse(int xPos,int yPos)\n\t\t{\n\t\t}\n\t}\n}\n";
 
             var actual = ClassGenerator.GetClassAsString(testClass);
 
@@ -152,7 +152,7 @@ namespace DynamicClassGeneration.Tests
                         new Statement(){Content = "if(xPos == 1){/*move mouse*/}"}
                     }
             };
-            RootClass testClass = new RootClass()
+            PluginClass testClass = new PluginClass()
             {
                 Name = "Heippa",
                 Namespace = "Joel.Testar",
@@ -162,7 +162,7 @@ namespace DynamicClassGeneration.Tests
                     }
             };
 
-            var expected = "namespace Joel.Testar{public class Heippa{internal void DoMoveMouse(int xPos,int yPos){if(xPos == 1){/*move mouse*/}}}}";
+            var expected = "namespace Joel.Testar\n{\n\tpublic class Heippa\n\t{\n\t\tinternal void DoMoveMouse(int xPos,int yPos)\n\t\t{\n\t\t\tif(xPos == 1){/*move mouse*/}\n\t\t}\n\t}\n}\n";
 
             var actual = ClassGenerator.GetClassAsString(testClass);
 
@@ -172,7 +172,7 @@ namespace DynamicClassGeneration.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void GetClassContent_Null_Class()
         {
-            RootClass testClass = null;
+            PluginClass testClass = null;
             var actual = ClassGenerator.GetClassAsString(testClass);
         }
     }

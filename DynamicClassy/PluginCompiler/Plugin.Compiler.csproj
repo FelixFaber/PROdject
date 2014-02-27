@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{00852715-DD3B-40B3-A366-3C55B4CAA3D7}</ProjectGuid>
+    <ProjectGuid>{2304FB21-3E1F-4847-BE1B-254737E2532A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DynamicClassGeneration</RootNamespace>
-    <AssemblyName>DynamicClassGeneration</AssemblyName>
+    <RootNamespace>Plugin.Compiler</RootNamespace>
+    <AssemblyName>Plugin.Compiler</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,17 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassFileWriter.cs" />
-    <Compile Include="SyntaxTree\Method.cs" />
-    <Compile Include="SyntaxTree\MethodParameter.cs" />
-    <Compile Include="SyntaxTree\PluginClass.cs" />
-    <Compile Include="SyntaxTree\Statement.cs" />
-    <Compile Include="SyntaxTree\Interface.cs" />
-    <Compile Include="SyntaxTree\UsingClause.cs" />
-    <Compile Include="TypeExtensions.cs" />
-    <Compile Include="AccessModifier.cs" />
-    <Compile Include="ClassGenerator.cs" />
+    <Compile Include="PluginCompilationException.cs" />
+    <Compile Include="PluginCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DynamicClassGeneration\DynamicClassGeneration.csproj">
+      <Project>{00852715-dd3b-40b3-a366-3c55b4caa3d7}</Project>
+      <Name>DynamicClassGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugin.Interface\Plugin.Interfaces.csproj">
+      <Project>{583338ea-91da-4606-8959-ad5cccf862a2}</Project>
+      <Name>Plugin.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

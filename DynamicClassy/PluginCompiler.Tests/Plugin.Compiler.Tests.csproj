@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{00852715-DD3B-40B3-A366-3C55B4CAA3D7}</ProjectGuid>
+    <ProjectGuid>{B74A4BFF-0547-43F1-AA86-1C32E4FD1B5B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DynamicClassGeneration</RootNamespace>
-    <AssemblyName>DynamicClassGeneration</AssemblyName>
+    <RootNamespace>Plugin.Compiler.Tests</RootNamespace>
+    <AssemblyName>Plugin.Compiler.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,17 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassFileWriter.cs" />
-    <Compile Include="SyntaxTree\Method.cs" />
-    <Compile Include="SyntaxTree\MethodParameter.cs" />
-    <Compile Include="SyntaxTree\PluginClass.cs" />
-    <Compile Include="SyntaxTree\Statement.cs" />
-    <Compile Include="SyntaxTree\Interface.cs" />
-    <Compile Include="SyntaxTree\UsingClause.cs" />
-    <Compile Include="TypeExtensions.cs" />
-    <Compile Include="AccessModifier.cs" />
-    <Compile Include="ClassGenerator.cs" />
+    <Compile Include="PluginCompilerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DynamicClassGeneration\DynamicClassGeneration.csproj">
+      <Project>{00852715-dd3b-40b3-a366-3c55b4caa3d7}</Project>
+      <Name>DynamicClassGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugin.Interface\Plugin.Interfaces.csproj">
+      <Project>{583338ea-91da-4606-8959-ad5cccf862a2}</Project>
+      <Name>Plugin.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginCompiler\Plugin.Compiler.csproj">
+      <Project>{2304fb21-3e1f-4847-be1b-254737e2532a}</Project>
+      <Name>Plugin.Compiler</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
