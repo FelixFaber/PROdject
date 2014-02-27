@@ -88,6 +88,7 @@ namespace Plugin.Compiler.Tests
             var firstPlugin = plugins.FirstOrDefault(plug => plug.Name == pluginName);
 
             Assert.IsNotNull(firstPlugin);
+            Assert.IsTrue(typeof(IPlugin).IsAssignableFrom(firstPlugin));
         }
     }
 }
